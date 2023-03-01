@@ -1,5 +1,13 @@
 #!/bin/bash
 
+sed -i 's/enforcing/disabled/g' /etc/selinux/config
+setenforce 0
+
+systemctl disable --now firewalld
+systemctl enable --now chronyd
+
+chronyc sources -v
+
 swapoff -a
 
 sed -e '/swap/ s/^#*/#/' -i /etc/fstab
